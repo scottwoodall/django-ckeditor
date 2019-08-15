@@ -76,6 +76,7 @@ class PillowBackend(object):
 
         if not hasattr(image, "_getexif"):
             image.thumbnail(THUMBNAIL_SIZE, Image.ANTIALIAS)
+            image = image.convert("RGB")
             image.save(thumbnail_io, format="JPEG", optimize=True)
             return self.storage_engine.save(thumbnail_filename, thumbnail_io)
 
@@ -83,6 +84,7 @@ class PillowBackend(object):
 
         if exif is None:
             image.thumbnail(THUMBNAIL_SIZE, Image.ANTIALIAS)
+            image = image.convert("RGB")
             image.save(thumbnail_io, format="JPEG", optimize=True)
             return self.storage_engine.save(thumbnail_filename, thumbnail_io)
 
@@ -96,5 +98,6 @@ class PillowBackend(object):
             image = image.rotate(90, expand=True)
 
         image.thumbnail(THUMBNAIL_SIZE, Image.ANTIALIAS)
+        image = image.convert("RGB")
         image.save(thumbnail_io, format="JPEG", optimize=True)
         return self.storage_engine.save(thumbnail_filename, thumbnail_io)
