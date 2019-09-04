@@ -90,12 +90,15 @@ class PillowBackend(object):
 
         exif = dict(exif.items())
 
-        if exif[orientation] == 3:
-            image = image.rotate(180, expand=True)
-        elif exif[orientation] == 6:
-            image = image.rotate(270, expand=True)
-        elif exif[orientation] == 8:
-            image = image.rotate(90, expand=True)
+        try:
+            if exif[orientation] == 3:
+                image = image.rotate(180, expand=True)
+            elif exif[orientation] == 6:
+                image = image.rotate(270, expand=True)
+            elif exif[orientation] == 8:
+                image = image.rotate(90, expand=True)
+        except KeyError:
+            pass
 
         image.thumbnail(THUMBNAIL_SIZE, Image.ANTIALIAS)
         image = image.convert("RGB")
